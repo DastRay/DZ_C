@@ -1,4 +1,6 @@
 #pragma once
+#include <stdbool.h>
+
 enum {
    MAX_NAME_LEN = 30,
    MAX_POST_LEN = 20,
@@ -20,10 +22,11 @@ typedef struct {
 typedef struct {
    Employee employee[MAX_EMPL_NUM];
    int num_empl;
+   bool eror;
 } Employees_storage;
 
 /**
- * @brief функци¤ считывани¤ информации из файла
+ * @brief функция считывани¤ информации из файла
  * @param file файл, из котрого считываем
 */
 void readFile(FILE* file);
@@ -35,10 +38,10 @@ void readFile(FILE* file);
 void printStorage(const Employees_storage* storage_);
 
 /**
- * @brief функци¤ дл¤ добавлени¤ новго сотрудника в хранилище Employees_storage
+ * @brief функция для добавления новго сотрудника в хранилище Employees_storage
  * @param storage_ указатель на хранилище структур
- * @param surname_ фамили¤
- * @param name_ им¤
+ * @param surname_ фамилия
+ * @param name_ имя
  * @param ptrnmc_ отчество
  * @param post_ должность
  * @param sex_ пол
@@ -50,16 +53,26 @@ void addEmployee(Employees_storage* storage_, const char* surname_, const char* 
    const char* sex_, int hire_date_d_, int hire_date_m_, int hire_date_y_);
 
 /**
- * @brief функци¤ вывод¤щ¤¤ информацию о сотрудниках, стаж которых превышает n лет
- * @param storage_ storage_ указатель на хранилище структур
- * @param day_ день приЄма на работу
- * @param month_ мес¤ц приЄма на работу
- * @param year_ год приЄма на работу
- * @param exp_ стаж
+ * @brief добовление сотрудника в файл и хранилище
+ * @param storage_ хранилище куда добавляем
+ * @param file файл куда добавляем
 */
-void checkExp(const Employees_storage* storage_, int day_, int month_, int year_, int exp_);
+void addEmployeeFile(const Employees_storage* storage_, FILE* file);
 
-/** 
+/**
+ * @brief удаление сотрудника из файла
+ * @param storage_ указатель на хранилище структур
+ * @param file файл из которого удаляется сотрудник
+*/
+void deleteEmployeeFile(const Employees_storage* storage_, FILE* file);
+
+/**
+ * @brief функция выводящяя информацию о сотрудниках, стаж которых превышает n лет
+ * @param storage_ указатель на хранилище структур
+*/
+void checkExp(const Employees_storage* storage_);
+
+/**
 * @brief вызов меню дл¤ работы с данными о сотрудниках
 * @param storage_ хранилище в котором наход¤тс¤ данные о сотрудниках
 */
