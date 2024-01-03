@@ -130,11 +130,11 @@ void addEmployeeFile(const Employees_storage* storage_, FILE* file)
    printf("\n");
 }
 
-void deleteEmployeeFile(const Employees_storage* storage_, FILE* file_)
+void deleteEmployeeFile(Employees_storage* storage_, FILE* file_)
 {
-   unsigned int number;
+   unsigned int del_number;
    printf("Введите номер сотрудника которого необходимо удалить из списка: ");
-   scanf_s("%u", &number);
+   scanf_s("%u", &del_number);
 
    fclose(file_);
 
@@ -149,19 +149,25 @@ void deleteEmployeeFile(const Employees_storage* storage_, FILE* file_)
 
    for (int i = 0; i < storage_->num_empl; i++)
    {
-      if (i == number - 1)
+      if (i == del_number - 1)
       {
          continue;
       }
 
-      fputs("\n", copy);
       fprintf(copy, "%s %s %s %s %s ", storage_->employee[i].surname, storage_->employee[i].name, storage_->employee[i].ptrnmc, storage_->employee[i].post, storage_->employee[i].sex);
       fprintf(copy, "%d-%d-%d", storage_->employee[i].hiredate_d, storage_->employee[i].hiredate_m, storage_->employee[i].hiredate_y);
+      
+      if (i != storage_->num_empl - 1)
+      {
+         fprintf(copy, "%c", '\n');
+         //fputs("\n", copy);
+      }
    }
 
    printf("Сотрудник успешно удалён\n");
    printf("Обновление данных о сотрудниках...\n");
    fclose(copy);
+
 
    FILE* file;
    errno_t erro = fopen_s(&file, "file.txt", "a+");
@@ -218,7 +224,7 @@ void checkExp(const Employees_storage* storage_)
    {
    case 1:
    {
-      printf("Сотрудники, стаж которых превышает %d лет:\n", exp);
+      printf("Сотрудники, стаж которых превышает %u лет:\n", exp);
       printf("-------------------------------------\n");
 
       for (int i = 0; i < storage_->num_empl; i++)
@@ -239,7 +245,7 @@ void checkExp(const Employees_storage* storage_)
    }
    case 2:
    {
-      printf("Сотрудники, стаж которых меньше %d лет:\n", exp);
+      printf("Сотрудники, стаж которых меньше %u лет:\n", exp);
       printf("-------------------------------------\n");
 
       for (int i = 0; i < storage_->num_empl; i++)
@@ -260,7 +266,7 @@ void checkExp(const Employees_storage* storage_)
    }
    case 3:
    {
-      printf("Сотрудники, стаж которых равен %d лет:\n", exp);
+      printf("Сотрудники, стаж которых равен %u лет:\n", exp);
       printf("-------------------------------------\n");
 
       for (int i = 0; i < storage_->num_empl; i++)
@@ -283,7 +289,7 @@ void checkExp(const Employees_storage* storage_)
    {
       printf("Неверное действие");
       break;
-   }  
+   }
    }
 }
 
@@ -332,5 +338,5 @@ void Mymenu(const Employees_storage* storage_, FILE* file)
          break;
       }
       }
-   } 
+   }
 }
